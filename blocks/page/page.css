@@ -1,0 +1,16 @@
+.page{
+    font-family: 'Open Sans', Arial, sans-serif;
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 0;
+    color: #888b8d;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 28px;
+    position: relative;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+}

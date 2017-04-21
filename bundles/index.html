@@ -3,28 +3,118 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>YMaps</title>
+    <title>Gulp</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="generator" content="yazvyazda.ru" />
     <link rel="stylesheet" href="style.min.css" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="http://yazvyazda.ru/favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="http://yazvyazda.ru/favicon/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="http://yazvyazda.ru/favicon/favicon-16x16.png" sizes="16x16" />
     <link rel="manifest" href="http://yazvyazda.ru/manifest.json" />
     <link rel="shortcut icon" href="http://yazvyazda.ru/favicon/favicon.ico" />
     <meta name="msapplication-config" content="http://yazvyazda.ru/browserconfig.xml" />
+
     <meta name="theme-color" content="#ffffff" />
 </head>
 
-<body>
+<body class='page'>
 
     <main>
-        
+        <h1>Promise Image</h1>
+        <img class='image' data-block='{"image":{"src":"https://proudwax.github.io/img/beer.png"}}' src='img/default.gif'>
+        <img class='image' data-block='{"image":{"src":"https://proudwax.github.io/img/health.png"}}' src='img/default.gif'>
+        <img class='image' src='img/default.gif'>
+        <img class='image' data-block='{"image":{"src":"https://proudwax.github.io/img/leaving-dtp.png"}}' src='img/default.gif'>
+        <!-- <div id="images"></div> -->
     </main>
 
+
     <script src="scripts.min.js"></script>
+    <!--script>
+        /**
+         *
+         * подгружаем изображение по указанному url
+         *
+         * @param url
+         * @returns {Promise}
+         */
+        function loadImage (url) {
+        	//объект "обещание"
+        	return new Promise(function (resolve, reject) {
+        		var img = new Image();
+        		img.onload = function () {
+        			//в случае успешной загрузки изображения, результат "обещания" будет url этого изображения
+        			return resolve(url);
+        		}
+        		img.onerror = function () {
+        			//в случае не успешной загрузки изображения, результат "обещания" будет url этого изображения
+        			return reject(url);
+        		}
+        		img.src = url;
+        	});
+        }
+
+        /**
+         *
+         * @param imgList - массив url
+         * @returns {Promise}
+         */
+        function loadAndDisplayImages (imgList) {
+        	var notLoaded = [];//сохраним url, какие не были загружены
+        	var loaded = [];//сохраним url, какие были загружены
+        	var promiseImgs = imgList.map(loadImage);
+            // console.log(promiseImgs);
+        	//вернем результат работы вызова reduce(...) - объект Promise, чтобы можно было потом  при необходимости продолжить цепочку вызовов:
+        	//loadAndDisplayImages(...).then(...).catch(...);
+        	return promiseImgs.reduce(function (previousPromise, currentPromise) {
+        		return previousPromise
+        			.then(function() {
+        				//выполняется этот участок кода, так как previousPromise - в состоянии resolved (= Promise.resolve())
+        				return currentPromise;
+        			})
+        			.then(function(url) {
+                        //для "обещаний" в состоянии resolved
+        				$('#images').append('<img src="'+url+'" style="width: 200px;"/>');
+        				loaded.push(url);
+        				return Promise.resolve(url);
+        			})
+        			.catch(function(url) {
+                        //для "обещаний" в состоянии rejected
+        				console.log('не удалось загрузить изображение по указанному пути: ', url);
+        				notLoaded.push(url);
+        				return Promise.resolve(url);
+        			});
+
+    	       }, Promise.resolve())
+        		.then(function (lastUrl) {
+        			console.log('lastUrl:', lastUrl);
+
+        			let res = {loaded: loaded, notLoaded: notLoaded};
+
+        			//но мы вернем Promise, значение которого будет объект
+        			return Promise.resolve(res);
+        		});
+
+        }
+
+        var imgArray = [
+            'https://proudwax.github.io/img/beer.png',
+            'https://proudwax.github.io/img/checkout-on-strip.png',
+            'https://proudwax.github.io/img/health.png',
+            'https://proudwax.github.io/img/leaving-dtp.png'
+        ];
+
+        loadAndDisplayImages(imgArray)
+        .then(function(loadRes)  {
+            console.log(loadRes);
+        })
+        .catch(function(err)  {
+            console.log(err);
+        });
+    </script-->
 </body>
 </html>

@@ -5,6 +5,4 @@ modules.define('jquery', ['loader'], function(provide, loader) {
     }
 
     typeof jQuery !== 'undefined' ? doProvide(true) : loader('https://yastatic.net/jquery/3.1.1/jquery.min.js', doProvide);
-
-    // loader('https://yastatic.net/jquery/3.1.1/jquery.min.js', function() { provide($) });
 });
