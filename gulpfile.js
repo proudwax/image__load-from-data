@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
     cache = require('gulp-cache'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    babel = require('gulp-babel');
 
 gulp.task('browser-sync', function() { // Создаем таск browser-sync
     browserSync({ // Выполняем browser Sync
@@ -47,6 +48,7 @@ gulp.task('scripts', function() {
         'blocks/**/*.js'
         ]) // Берем все js из папки blocks
         .pipe(concat('scripts.min.js')) // Собираем их в кучу в новом файле scripts.min.js
+        .pipe(babel({ presets: ['es2015'] }))
         .pipe(gulp.dest('bundles')) // Выгружаем в папку bundles
         .pipe(browserSync.reload({stream: true})); // Обновляем JS на странице при изменении
 });

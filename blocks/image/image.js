@@ -1,3 +1,5 @@
+'use strict';
+
 modules.define('image', function(provide) {
 
     let _moduleName = this.name;
@@ -28,7 +30,8 @@ modules.define('image', function(provide) {
 
     provide(
         function(addQuerySelector) {
-            let imgList = document.querySelectorAll('.' + _moduleName + addQuerySelector);
+            let imgList = document.querySelectorAll('.' + _moduleName + addQuerySelector),
+                promiseImg;
 
             [].map.call(imgList, (item, i) => {
                 promiseImg = loadImage(getDataPath(item));
