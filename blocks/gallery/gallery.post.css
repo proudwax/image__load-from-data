@@ -1,0 +1,19 @@
+:block(gallery) {
+    margin: 1vw;
+
+    &:elem(list){
+        display: flex;
+        flex-flow: row nowrap;
+
+        align-items: center;
+        justify-content: center;
+    }
+
+    &:elem(item){
+        flex: 0 0;
+        max-width: 25%;
+        flex-basis: 25%;
+
+        border: 1px solid transparent;
+    }
+}

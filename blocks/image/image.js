@@ -1,5 +1,7 @@
 modules.define('image', function(provide) {
 
+    let _moduleName = this.name;
+
     function getDataPath (imageNode) {
 
         let data = imageNode.dataset.block;
@@ -25,17 +27,28 @@ modules.define('image', function(provide) {
     }
 
     provide(
-        function() {
-            let imgList = document.querySelectorAll('.image'),
-                promiseImgs = [].map.call(imgList, (item) => {
-                        return loadImage(getDataPath(item));
-                    });
-            console.log(promiseImgs);
+        function(addQuerySelector) {
+            let imgList = document.querySelectorAll('.' + _moduleName + addQuerySelector);
+
+            [].map.call(imgList, (item, i) => {
+                promiseImg = loadImage(getDataPath(item));
+
+                promiseImg.then(
+                    function (res) {
+                        item.src = res;
+                    }
+                ).catch(
+                    function (err) {
+                        console.error(err);
+                    }
+                );
+            });
+
         }
     );
 
 });
 
 modules.require('image', function(image) {
-    image();
+    image('[data-block]');
 });

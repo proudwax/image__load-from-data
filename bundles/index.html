@@ -25,96 +25,25 @@
 
     <main>
         <h1>Promise Image</h1>
-        <img class='image' data-block='{"image":{"src":"https://proudwax.github.io/img/beer.png"}}' src='img/default.gif'>
-        <img class='image' data-block='{"image":{"src":"https://proudwax.github.io/img/health.png"}}' src='img/default.gif'>
-        <img class='image' src='img/default.gif'>
-        <img class='image' data-block='{"image":{"src":"https://proudwax.github.io/img/leaving-dtp.png"}}' src='img/default.gif'>
-        <!-- <div id="images"></div> -->
+        <div class='gallery'>
+            <div class='gallery__list'>
+                <div class='gallery__item'>
+                    <img class='image' data-block='{"image":{"src":"http://www.planwallpaper.com/static/images/814410-free-wallpaper_7pFaaQN.jpg"}}' src='img/default.gif'>
+                </div>
+                <div class='gallery__item'>
+                    <img class='image' data-block='{"image":{"src":"http://www.planwallpaper.com/static/images/animated-wallpapers-free-download-5.jpg"}}' src='img/default.gif'>
+                </div>
+                <div class='gallery__item'>
+                    <img class='image' data-block='{"image":{"src":"http://www.planwallpaper.com/static/images/free-desktop-wallpaper_yfNZuG5.jpg"}}' src='img/default.gif'>
+                </div>
+                <div class='gallery__item'>
+                    <img class='image' src='http://www.mrwallpaper.com/wallpapers/akaroa-new-zealand.jpg'>
+                </div>
+            </div>
+        </div>
     </main>
 
 
     <script src="scripts.min.js"></script>
-    <!--script>
-        /**
-         *
-         * подгружаем изображение по указанному url
-         *
-         * @param url
-         * @returns {Promise}
-         */
-        function loadImage (url) {
-        	//объект "обещание"
-        	return new Promise(function (resolve, reject) {
-        		var img = new Image();
-        		img.onload = function () {
-        			//в случае успешной загрузки изображения, результат "обещания" будет url этого изображения
-        			return resolve(url);
-        		}
-        		img.onerror = function () {
-        			//в случае не успешной загрузки изображения, результат "обещания" будет url этого изображения
-        			return reject(url);
-        		}
-        		img.src = url;
-        	});
-        }
-
-        /**
-         *
-         * @param imgList - массив url
-         * @returns {Promise}
-         */
-        function loadAndDisplayImages (imgList) {
-        	var notLoaded = [];//сохраним url, какие не были загружены
-        	var loaded = [];//сохраним url, какие были загружены
-        	var promiseImgs = imgList.map(loadImage);
-            // console.log(promiseImgs);
-        	//вернем результат работы вызова reduce(...) - объект Promise, чтобы можно было потом  при необходимости продолжить цепочку вызовов:
-        	//loadAndDisplayImages(...).then(...).catch(...);
-        	return promiseImgs.reduce(function (previousPromise, currentPromise) {
-        		return previousPromise
-        			.then(function() {
-        				//выполняется этот участок кода, так как previousPromise - в состоянии resolved (= Promise.resolve())
-        				return currentPromise;
-        			})
-        			.then(function(url) {
-                        //для "обещаний" в состоянии resolved
-        				$('#images').append('<img src="'+url+'" style="width: 200px;"/>');
-        				loaded.push(url);
-        				return Promise.resolve(url);
-        			})
-        			.catch(function(url) {
-                        //для "обещаний" в состоянии rejected
-        				console.log('не удалось загрузить изображение по указанному пути: ', url);
-        				notLoaded.push(url);
-        				return Promise.resolve(url);
-        			});
-
-    	       }, Promise.resolve())
-        		.then(function (lastUrl) {
-        			console.log('lastUrl:', lastUrl);
-
-        			let res = {loaded: loaded, notLoaded: notLoaded};
-
-        			//но мы вернем Promise, значение которого будет объект
-        			return Promise.resolve(res);
-        		});
-
-        }
-
-        var imgArray = [
-            'https://proudwax.github.io/img/beer.png',
-            'https://proudwax.github.io/img/checkout-on-strip.png',
-            'https://proudwax.github.io/img/health.png',
-            'https://proudwax.github.io/img/leaving-dtp.png'
-        ];
-
-        loadAndDisplayImages(imgArray)
-        .then(function(loadRes)  {
-            console.log(loadRes);
-        })
-        .catch(function(err)  {
-            console.log(err);
-        });
-    </script-->
 </body>
 </html>
